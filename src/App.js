@@ -1,7 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [msg, setMsg] = useState("Learn React");
+  useEffect(() => {
+    async function fetchAsync() {
+      const response = await fetch("/.netlify/functions/announcements");
+      const data = await response.json();
+      console.log("useEffect", data);
+      setMsg(data.msg);
+    }
+
+    fetchAsync();
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -15,7 +28,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          {msg}
         </a>
       </header>
     </div>
